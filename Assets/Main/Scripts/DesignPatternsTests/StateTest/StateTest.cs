@@ -1,70 +1,111 @@
-using System;
-using NUnit.Framework;
 using DesignPatterns.State;
+using NUnit.Framework;
 
 namespace DesignPatternsTests.StateTests
 {
-    public class ExampleContext : Context
+    public class Example : IContext<Example>
     {
-        public override void Request()
+        private State<Example> _state;
+        public string _stateName;
+
+        public State<Example> State { get => _state; set => _state = value; }
+
+        public void Request()
         {
-            base.Request();
+            _state.Handle();
         }
     }
-    public class ConcreteStateA : State
+    public class ConcreteStateA : State<Example>
     {
-        public ConcreteStateA(Context context) : base(context) { }
+        public ConcreteStateA(Example context) : base(context)
+        {
+            _context._stateName = "A";
+        }
 
         public override void Handle()
         {
-            throw new NotImplementedException();
+            _context.State = new ConcreteStateB(_context);
         }
     }
-    public class ConcreteStateB : State
+    public class ConcreteStateB : State<Example>
     {
-        public ConcreteStateB(Context context) : base(context) { }
+        public ConcreteStateB(Example context) : base(context)
+        {
+            _context._stateName = "B";
+        }
 
         public override void Handle()
         {
-            throw new NotImplementedException();
+            _context.State = new ConcreteStateC(_context);
         }
     }
-    public class ConcreteStateC : State
+    public class ConcreteStateC : State<Example>
     {
-        public ConcreteStateC(Context context) : base(context) { }
+        public ConcreteStateC(Example context) : base(context)
+        {
+            _context._stateName = "C";
+        }
 
         public override void Handle()
         {
-            throw new NotImplementedException();
+            _context.State = new ConcreteStateA(_context);
         }
     }
 
     [TestFixture]
     public class StateTest
     {
-        //public void FunctionName_Scenario_ExpectedBehavior() { }
+        #region Test Function Example
+        //[Test]
+        //public void FunctionName_Scenario_ExpectedBehavior()
+        //{
+        //    // Arrange
+        //    // Act
+        //    // Assert
+        //}
+        #endregion
 
         [Test]
         public void CreateContext_NotNull()
         {
-            // Arrange
-            var context = new ExampleContext();
+            var context = new Example();
 
-            // Act
-
-            // Assert
-            Assert.IsNotNull(context);
+            Assert.NotNull(context);
         }
-
         [Test]
-        public void ChangeState_Succeed()
+        public void ChangeState_NotNull()
         {
-            // Arrange
+            var context = new Example();
 
-            // Act
+            context.State = new ConcreteStateA(context);
 
-            // Assert
+            Assert.NotNull(context.State);
+        }
+        [Test]
+        public void ChangeState_ByContext_Succeed()
+        {
+            var context = new Example();
 
+            context.State = new ConcreteStateA(context);
+            Assert.AreEqual("A", context._stateName);
+
+            context.State = new ConcreteStateB(context);
+            Assert.AreEqual("B", context._stateName);
+        }
+        [Test]
+        public void ChangeState_ByConcreteState_Succeed()
+        {
+            var context = new Example();
+            context.State = new ConcreteStateA(context);
+
+            context.Request();
+            Assert.AreEqual("B", context._stateName);
+
+            context.Request();
+            Assert.AreEqual("C", context._stateName);
+
+            context.Request();
+            Assert.AreEqual("A", context._stateName);
         }
     }
 }

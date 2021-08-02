@@ -1,16 +1,16 @@
 namespace DesignPatterns.State
 {
-    public abstract class State
+    public abstract class State<T>
     {
-        protected Context _context = null;
+        protected T _context;
 
         #region Constructor
-        protected State(Context context)
+        protected State(T context)
         {
             _context = context;
         }
         #endregion
-        
+
         #region Public Methods
         public abstract void Handle();
         #endregion
