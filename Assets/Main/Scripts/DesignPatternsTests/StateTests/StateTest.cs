@@ -1,54 +1,55 @@
-using DesignPatterns.State;
 using NUnit.Framework;
+using DesignPatterns.State;
 
 namespace DesignPatternsTests.StateTests
 {
-    public class Example : IContext<Example>
+    public class Example : Context
     {
-        private State<Example> _state;
         public string _stateName;
-
-        public State<Example> State { get => _state; set => _state = value; }
-
-        public void Request()
-        {
-            _state.Handle();
-        }
     }
-    public class ConcreteStateA : State<Example>
+    public class ConcreteStateA : IState
     {
-        public ConcreteStateA(Example context) : base(context)
+        private readonly Example _context;
+
+        public ConcreteStateA(Example example)
         {
+            _context = example;
             _context._stateName = "A";
         }
 
-        public override void Handle()
+        public void Handle()
         {
-            _context.State = new ConcreteStateB(_context);
+            _context.SetState(new ConcreteStateB(_context));
         }
     }
-    public class ConcreteStateB : State<Example>
+    public class ConcreteStateB : IState
     {
-        public ConcreteStateB(Example context) : base(context)
+        private readonly Example _context;
+
+        public ConcreteStateB(Example example)
         {
+            _context = example;
             _context._stateName = "B";
         }
 
-        public override void Handle()
+        public void Handle()
         {
-            _context.State = new ConcreteStateC(_context);
+            _context.SetState(new ConcreteStateC(_context));
         }
     }
-    public class ConcreteStateC : State<Example>
+    public class ConcreteStateC : IState
     {
-        public ConcreteStateC(Example context) : base(context)
+        private readonly Example _context;
+
+        public ConcreteStateC(Example example)
         {
+            _context = example;
             _context._stateName = "C";
         }
 
-        public override void Handle()
+        public void Handle()
         {
-            _context.State = new ConcreteStateA(_context);
+            _context.SetState(new ConcreteStateA(_context));
         }
     }
 
@@ -77,26 +78,26 @@ namespace DesignPatternsTests.StateTests
         {
             var context = new Example();
 
-            context.State = new ConcreteStateA(context);
+            context.SetState(new ConcreteStateA(context));
 
-            Assert.NotNull(context.State);
+            Assert.NotNull(context.GetState());
         }
         [Test]
         public void ChangeState_ByContext_Succeed()
         {
             var context = new Example();
 
-            context.State = new ConcreteStateA(context);
+            context.SetState(new ConcreteStateA(context));
             Assert.AreEqual("A", context._stateName);
 
-            context.State = new ConcreteStateB(context);
+            context.SetState(new ConcreteStateB(context));
             Assert.AreEqual("B", context._stateName);
         }
         [Test]
         public void ChangeState_ByConcreteState_Succeed()
         {
             var context = new Example();
-            context.State = new ConcreteStateA(context);
+            context.SetState(new ConcreteStateA(context));
 
             context.Request();
             Assert.AreEqual("B", context._stateName);

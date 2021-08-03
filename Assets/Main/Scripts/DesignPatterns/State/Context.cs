@@ -2,7 +2,7 @@
 {
     public class Context
     {
-        private State _state = null;
+        protected IState _state;
 
         #region Constructor
         public Context() { }
@@ -13,9 +13,13 @@
         {
             _state.Handle();
         }
-        public virtual void SetState(State state)
+        public void SetState(IState state)
         {
             _state = state;
+        }
+        public IState GetState()
+        {
+            return _state;
         }
         #endregion
     }
