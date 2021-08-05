@@ -74,7 +74,7 @@ namespace DesignPatternsTests.StateTests
             Assert.NotNull(context);
         }
         [Test]
-        public void ChangeState_NotNull()
+        public void ChangeState_ByContext_NotNull()
         {
             var context = new Example();
 
@@ -92,6 +92,16 @@ namespace DesignPatternsTests.StateTests
 
             context.SetState(new ConcreteStateB(context));
             Assert.AreEqual("B", context._stateName);
+        }
+        [Test]
+        public void ChangeState_ByConcreteState_NotNull()
+        {
+            var context = new Example();
+            context.SetState(new ConcreteStateA(context));
+
+            context.Request();
+
+            Assert.NotNull(context.GetState());
         }
         [Test]
         public void ChangeState_ByConcreteState_Succeed()
