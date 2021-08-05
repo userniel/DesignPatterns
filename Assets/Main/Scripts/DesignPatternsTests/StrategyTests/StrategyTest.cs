@@ -1,15 +1,28 @@
 using NUnit.Framework;
 using DesignPatterns.Strategy;
 
-namespace DesignPatterns.StrategyTest
+namespace DesignPatternsTests.StrategyTests
 {
-    public class Example : Context
-    {
-
-    }
     public class ConcreteStrategyA : IStrategy
     {
-
+        public int Execute(int a, int b)
+        {
+            return a + b;
+        }
+    }
+    public class ConcreteStrategyB : IStrategy
+    {
+        public int Execute(int a, int b)
+        {
+            return a - b;
+        }
+    }
+    public class ConcreteStrategyC : IStrategy
+    {
+        public int Execute(int a, int b)
+        {
+            return a * b;
+        }
     }
 
     [TestFixture]
@@ -24,5 +37,36 @@ namespace DesignPatterns.StrategyTest
         //    // Assert
         //}
         #endregion
+
+        [Test]
+        public void CreateContext_NotNull()
+        {
+            var context = new Context();
+
+            Assert.NotNull(context);
+        }
+        [Test]
+        public void ChangeStrategy_NotNull()
+        {
+            var context = new Context();
+
+            context.SetStrategy(new ConcreteStrategyA());
+
+            Assert.NotNull(context.GetStrategy());
+        }
+        [Test]
+        public void ChangeStrategy_Succeed()
+        {
+            var context = new Context();
+
+            context.SetStrategy(new ConcreteStrategyA());
+            Assert.AreEqual(3, context.Request(1, 2));
+
+            context.SetStrategy(new ConcreteStrategyB());
+            Assert.AreEqual(-1, context.Request(1, 2));
+
+            context.SetStrategy(new ConcreteStrategyC());
+            Assert.AreEqual(2, context.Request(1, 2));
+        }
     }
 }
