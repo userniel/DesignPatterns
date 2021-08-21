@@ -7,7 +7,11 @@ namespace DesignPatternsTests.FactoryTests
     {
         public Product Create<T>() where T : Product, new()
         {
-            return new T();
+            Product product = new T();
+
+            // Some progress...
+
+            return product;
         }
     }
     public class ConcreteProductA : Product
@@ -39,10 +43,10 @@ namespace DesignPatternsTests.FactoryTests
         #endregion
 
         [Test]
-        public void ChangeCreator_ByClass_Succeed()
+        public void ChangeCreator_UsingClass_Succeed()
         {
             var creator = new Creator();
-            Product product = null;
+            Product product;
 
             product = creator.Create<ConcreteProductA>();
             Assert.AreEqual("A", product._name);
@@ -51,10 +55,10 @@ namespace DesignPatternsTests.FactoryTests
             Assert.AreEqual("B", product._name);
         }
         [Test]
-        public void ChangeCreator_ByInterface_Succeed()
+        public void ChangeCreator_UsingInterface_Succeed()
         {
             var factory = new Factory();
-            Product product = null;
+            Product product;
 
             product = factory.Create<ConcreteProductA>();
             Assert.AreEqual("A", product._name);
