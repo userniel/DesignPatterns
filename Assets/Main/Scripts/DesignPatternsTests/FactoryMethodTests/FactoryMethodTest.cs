@@ -1,23 +1,27 @@
 using NUnit.Framework;
 using DesignPatterns.FactoryMethod;
 
-namespace DesignPatternsTests.FactoryTests
+namespace DesignPatternsTests.FactoryMethodTests
 {
-    public class Factory : ICreator
+    internal class Factory : ICreator
     {
         public Product Create<T>() where T : Product, new()
         {
-            return new T();
+            Product product = new T();
+
+            // Some progress...
+
+            return product;
         }
     }
-    public class ConcreteProductA : Product
+    internal class ConcreteProductA : Product
     {
         public ConcreteProductA()
         {
             _name = "A";
         }
     }
-    public class ConcreteProductB : Product
+    internal class ConcreteProductB : Product
     {
         public ConcreteProductB()
         {
@@ -39,10 +43,10 @@ namespace DesignPatternsTests.FactoryTests
         #endregion
 
         [Test]
-        public void ChangeCreator_ByClass_Succeed()
+        public void ChangeCreator_UsingClass_Succeed()
         {
             var creator = new Creator();
-            Product product = null;
+            Product product;
 
             product = creator.Create<ConcreteProductA>();
             Assert.AreEqual("A", product._name);
@@ -51,10 +55,10 @@ namespace DesignPatternsTests.FactoryTests
             Assert.AreEqual("B", product._name);
         }
         [Test]
-        public void ChangeCreator_ByInterface_Succeed()
+        public void ChangeCreator_UsingInterface_Succeed()
         {
             var factory = new Factory();
-            Product product = null;
+            Product product;
 
             product = factory.Create<ConcreteProductA>();
             Assert.AreEqual("A", product._name);
