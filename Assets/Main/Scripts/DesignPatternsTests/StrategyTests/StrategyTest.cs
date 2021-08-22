@@ -3,21 +3,21 @@ using DesignPatterns.Strategy;
 
 namespace DesignPatternsTests.StrategyTests
 {
-    public class ConcreteStrategyA : IStrategy
+    internal class ConcreteStrategyA : IStrategy
     {
         public int Execute(int a, int b)
         {
             return a + b;
         }
     }
-    public class ConcreteStrategyB : IStrategy
+    internal class ConcreteStrategyB : IStrategy
     {
         public int Execute(int a, int b)
         {
             return a - b;
         }
     }
-    public class ConcreteStrategyC : IStrategy
+    internal class ConcreteStrategyC : IStrategy
     {
         public int Execute(int a, int b)
         {

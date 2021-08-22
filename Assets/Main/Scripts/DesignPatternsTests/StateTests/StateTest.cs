@@ -3,11 +3,11 @@ using DesignPatterns.State;
 
 namespace DesignPatternsTests.StateTests
 {
-    public class Example : Context
+    internal class Example : Context
     {
         public string _stateName;
     }
-    public class ConcreteStateA : IState
+    internal class ConcreteStateA : IState
     {
         private readonly Example _context;
 
@@ -22,7 +22,7 @@ namespace DesignPatternsTests.StateTests
             _context.SetState(new ConcreteStateB(_context));
         }
     }
-    public class ConcreteStateB : IState
+    internal class ConcreteStateB : IState
     {
         private readonly Example _context;
 
@@ -37,7 +37,7 @@ namespace DesignPatternsTests.StateTests
             _context.SetState(new ConcreteStateC(_context));
         }
     }
-    public class ConcreteStateC : IState
+    internal class ConcreteStateC : IState
     {
         private readonly Example _context;
 
