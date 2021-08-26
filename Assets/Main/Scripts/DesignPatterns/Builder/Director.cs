@@ -7,7 +7,7 @@ namespace DesignPatterns.Builder
         #endregion
 
         #region Public Methods
-        public void Construct(Builder builder)
+        public void Construct<T>(Builder<T> builder)
         {
             builder.AddPartA();
             builder.AddPartB();

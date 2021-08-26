@@ -12,51 +12,43 @@ namespace DesignPatternsTests.BuilderTests
     {
         public string _parts;
     }
-    internal class ConcreteBuilder1 : Builder
+    internal class ConcreteBuilder1 : Builder<ConcreteProduct1>
     {
-        private ConcreteProduct1 _product;
-
         public override void Reset()
         {
-            _product = new ConcreteProduct1();
+            _result = new ConcreteProduct1();
         }
         public override void AddPartA()
         {
-            _product._parts += "a";
+            _result._parts += "a";
         }
         public override void AddPartB()
         {
-            _product._parts += "B";
+            _result._parts += "B";
         }
         public override void AddPartC()
         {
 
         }
-
-        public ConcreteProduct1 GetProduct() => _product;
     }
-    internal class ConcreteBuilder2 : Builder
+    internal class ConcreteBuilder2 : Builder<ConcreteProduct2>
     {
-        private ConcreteProduct2 _product;
-
         public override void Reset()
         {
-            _product = new ConcreteProduct2();
+            _result = new ConcreteProduct2();
         }
         public override void AddPartA()
         {
-            _product._parts += "A";
+            _result._parts += "A";
         }
         public override void AddPartB()
         {
-            _product._parts += "b";
+            _result._parts += "b";
         }
         public override void AddPartC()
         {
-            _product._parts += "C";
+            _result._parts += "C";
         }
-
-        public ConcreteProduct2 GetProduct() => _product;
     }
 
     [TestFixture]
@@ -82,11 +74,11 @@ namespace DesignPatternsTests.BuilderTests
             ConcreteProduct2 product2;
 
             director.Construct(builder1);
-            product1 = builder1.GetProduct();
+            product1 = builder1.GetResult();
             Assert.AreEqual("aB", product1._parts);
 
             director.Construct(builder2);
-            product2 = builder2.GetProduct();
+            product2 = builder2.GetResult();
             Assert.AreEqual("AbC", product2._parts);
         }
     }

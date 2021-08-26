@@ -1,7 +1,9 @@
 namespace DesignPatterns.Builder
 {
-    public abstract class Builder
+    public abstract class Builder<T>
     {
+        protected T _result;
+
         #region Constructor
         protected Builder()
         {
@@ -14,6 +16,7 @@ namespace DesignPatterns.Builder
         public abstract void AddPartA();
         public abstract void AddPartB();
         public abstract void AddPartC();
+        public T GetResult() => _result;
         #endregion
     }
 }
