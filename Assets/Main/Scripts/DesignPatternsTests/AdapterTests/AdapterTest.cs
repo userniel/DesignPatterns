@@ -3,7 +3,7 @@ using DesignPatterns.Adapter;
 
 namespace DesignPatternsTests.AdapterTests
 {
-    internal interface IProductA 
+    internal interface IProductA
     {
         public string FunctionA();
     }

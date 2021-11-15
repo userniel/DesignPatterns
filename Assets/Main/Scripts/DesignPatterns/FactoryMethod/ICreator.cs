@@ -1,7 +1,7 @@
 namespace DesignPatterns.FactoryMethod
 {
-    public interface ICreator
+    public interface ICreator<T>
     {
-        public Product Create<T>() where T : Product, new();
+        public T Create<U>() where U : T, new();
     }
 }

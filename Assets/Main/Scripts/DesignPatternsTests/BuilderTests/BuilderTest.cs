@@ -1,22 +1,25 @@
 using NUnit.Framework;
-using DesignPatterns.FactoryMethod;
 using DesignPatterns.Builder;
 
 namespace DesignPatternsTests.BuilderTests
 {
-    internal class ConcreteProduct1 : Product
+    internal class Product1
     {
         public string _parts;
+
+        public Product1() { }
     }
-    internal class ConcreteProduct2 : Product
+    internal class Product2
     {
         public string _parts;
+
+        public Product2() { }
     }
-    internal class ConcreteBuilder1 : Builder<ConcreteProduct1>
+    internal class ConcreteBuilder1 : Builder<Product1>
     {
         public override void Reset()
         {
-            _result = new ConcreteProduct1();
+            _result = new Product1();
         }
         public override void AddPartA()
         {
@@ -31,11 +34,11 @@ namespace DesignPatternsTests.BuilderTests
 
         }
     }
-    internal class ConcreteBuilder2 : Builder<ConcreteProduct2>
+    internal class ConcreteBuilder2 : Builder<Product2>
     {
         public override void Reset()
         {
-            _result = new ConcreteProduct2();
+            _result = new Product2();
         }
         public override void AddPartA()
         {
@@ -70,8 +73,8 @@ namespace DesignPatternsTests.BuilderTests
             var director = new Director();
             var builder1 = new ConcreteBuilder1();
             var builder2 = new ConcreteBuilder2();
-            ConcreteProduct1 product1;
-            ConcreteProduct2 product2;
+            Product1 product1;
+            Product2 product2;
 
             director.Construct(builder1);
             product1 = builder1.GetResult();

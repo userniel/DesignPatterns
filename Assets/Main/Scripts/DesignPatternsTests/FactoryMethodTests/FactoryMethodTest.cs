@@ -3,16 +3,22 @@ using DesignPatterns.FactoryMethod;
 
 namespace DesignPatternsTests.FactoryMethodTests
 {
-    internal class Factory : ICreator
+    internal class Factory : ICreator<Product>
     {
-        public Product Create<T>() where T : Product, new()
+        public Product Create<U>() where U : Product, new()
         {
-            Product product = new T();
+            Product product = new U();
 
             // Some progress...
 
             return product;
         }
+    }
+    internal abstract class Product 
+    {
+        public string _name;
+
+        public Product() { }
     }
     internal class ConcreteProductA : Product
     {
@@ -43,19 +49,7 @@ namespace DesignPatternsTests.FactoryMethodTests
         #endregion
 
         [Test]
-        public void ChangeCreator_UsingClass_Succeed()
-        {
-            var creator = new Creator();
-            Product product;
-
-            product = creator.Create<ConcreteProductA>();
-            Assert.AreEqual("A", product._name);
-
-            product = creator.Create<ConcreteProductB>();
-            Assert.AreEqual("B", product._name);
-        }
-        [Test]
-        public void ChangeCreator_UsingInterface_Succeed()
+        public void ChangeCreator_Succeed()
         {
             var factory = new Factory();
             Product product;
